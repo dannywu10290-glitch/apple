@@ -1,0 +1,992 @@
+/* 載入精美字型：VT323 (復古數位)、Share Tech Mono (賽博龐克)、Outfit (現代極光) */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Share+Tech+Mono&family=VT323&display=swap');
+
+/* 全域基礎重設 */
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.app-root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   主題一：賽博龐克 (Cyberpunk 霓虹)
+   ========================================== */
+.theme-cyberpunk {
+  --app-bg: #090a0f;
+  --panel-bg: rgba(16, 18, 27, 0.85);
+  --panel-border: 2px solid #00f0ff;
+  --panel-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+  --text-primary: #00f0ff;
+  --text-secondary: #ff007f;
+  --text-muted: #8b9bb4;
+  --cell-bg: rgba(28, 31, 46, 0.9);
+  --cell-bg-hover: rgba(0, 240, 255, 0.15);
+  --cell-border: 1px solid rgba(0, 240, 255, 0.3);
+  --cell-revealed-bg: #11131c;
+  --btn-primary-bg: #ff007f;
+  --btn-primary-text: #ffffff;
+  --btn-secondary-bg: #1c1f2e;
+  --btn-secondary-text: #00f0ff;
+  --font-digital: 'Share Tech Mono', monospace;
+  --font-ui: 'Share Tech Mono', monospace;
+  
+  background-color: var(--app-bg);
+  background-image: 
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 4px, 6px 100%;
+  color: var(--text-primary);
+}
+
+.theme-cyberpunk .text-glow {
+  text-shadow: 0 0 8px var(--text-primary);
+}
+
+/* ==========================================
+   主題二：經典復古 (Classic 90年代街機)
+   ========================================== */
+.theme-retro {
+  --app-bg: #4a5e68;
+  --panel-bg: #c0c0c0;
+  --panel-border: 3px solid;
+  --panel-border-color: #ffffff #808080 #808080 #ffffff;
+  --panel-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
+  --text-primary: #000000;
+  --text-secondary: #000080;
+  --text-muted: #404040;
+  --cell-bg: #c0c0c0;
+  --cell-border: 3px solid;
+  --cell-border-color: #ffffff #808080 #808080 #ffffff;
+  --cell-revealed-bg: #c0c0c0;
+  --btn-primary-bg: #c0c0c0;
+  --btn-primary-text: #000000;
+  --btn-secondary-bg: #c0c0c0;
+  --btn-secondary-text: #000000;
+  --font-digital: 'VT323', monospace;
+  --font-ui: 'VT323', monospace;
+
+  background-color: var(--app-bg);
+  color: var(--text-primary);
+}
+
+.theme-retro .panel-border-inset {
+  border: 3px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+/* ==========================================
+   主題三：極光磨砂 (Aurora 現代極光)
+   ========================================== */
+.theme-aurora {
+  --app-bg: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+  --panel-bg: rgba(30, 41, 59, 0.5);
+  --panel-border: 1px solid rgba(255, 255, 255, 0.1);
+  --panel-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.05);
+  --text-primary: #f8fafc;
+  --text-secondary: #f43f5e;
+  --text-muted: #94a3b8;
+  --cell-bg: rgba(255, 255, 255, 0.08);
+  --cell-bg-hover: rgba(255, 255, 255, 0.18);
+  --cell-border: 1px solid rgba(255, 255, 255, 0.15);
+  --cell-revealed-bg: rgba(0, 0, 0, 0.25);
+  --btn-primary-bg: linear-gradient(90deg, #ec4899, #8b5cf6);
+  --btn-primary-text: #ffffff;
+  --btn-secondary-bg: rgba(255, 255, 255, 0.1);
+  --btn-secondary-text: #f8fafc;
+  --font-digital: 'Outfit', sans-serif;
+  --font-ui: 'Outfit', sans-serif;
+
+  background: var(--app-bg);
+  color: var(--text-primary);
+}
+
+/* ==========================================
+   Minesweeper 元件排版與樣式
+   ========================================== */
+.minesweeper-app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 900px;
+}
+
+.game-container {
+  background: var(--panel-bg);
+  border: var(--panel-border);
+  box-shadow: var(--panel-shadow);
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  backdrop-filter: blur(15px);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.theme-retro .game-container {
+  border-radius: 0px;
+  backdrop-filter: none;
+}
+
+/* 遊戲標題列 */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+}
+
+.theme-retro .game-header {
+  border-bottom: 3px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  padding: 6px;
+  background: #000080;
+  color: #ffffff;
+}
+
+.header-logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  font-family: var(--font-ui);
+}
+
+.theme-cyberpunk .header-logo {
+  color: var(--text-primary);
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+}
+
+.theme-retro .header-logo {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.action-btn {
+  background: var(--btn-secondary-bg);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--btn-secondary-text);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  filter: brightness(1.2);
+  transform: translateY(-1px);
+}
+
+.theme-retro .action-btn {
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  border-radius: 0;
+  background: #c0c0c0;
+  color: #000;
+  font-weight: bold;
+}
+
+.theme-retro .action-btn:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.theme-cyberpunk .action-btn {
+  border: 1px solid var(--text-primary);
+  box-shadow: 0 0 5px rgba(0, 240, 255, 0.2);
+}
+
+/* 主題下拉選單 */
+.theme-selector select {
+  background: var(--btn-secondary-bg);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-primary);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  font-family: var(--font-ui);
+}
+
+.theme-cyberpunk .theme-selector select {
+  border: 1px solid var(--text-primary);
+  box-shadow: 0 0 5px rgba(0, 240, 255, 0.2);
+}
+
+.theme-retro .theme-selector select {
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  border-radius: 0;
+  background: #c0c0c0;
+  color: #000;
+  font-weight: bold;
+}
+
+/* 控制面板與難度選擇 */
+.controls-section {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.difficulty-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.diff-btn {
+  background: var(--cell-bg);
+  border: var(--cell-border);
+  color: var(--text-muted);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  font-family: var(--font-ui);
+}
+
+.diff-btn:hover {
+  color: var(--text-primary);
+  background: var(--cell-bg-hover);
+}
+
+.diff-btn.active {
+  color: var(--btn-primary-text);
+  background: var(--btn-primary-bg);
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.theme-cyberpunk .diff-btn.active {
+  box-shadow: 0 0 10px rgba(255, 0, 127, 0.6);
+  border: 1px solid #ff007f;
+}
+
+.theme-retro .diff-btn {
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  border-radius: 0;
+  background: #c0c0c0;
+  color: #000;
+  font-size: 1.1rem;
+}
+
+.theme-retro .diff-btn.active {
+  border-color: #808080 #ffffff #ffffff #808080;
+  background: #e0e0e0;
+  box-shadow: none;
+}
+
+/* 自訂難度表單 */
+.custom-form {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 12px;
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.theme-retro .custom-form {
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  background: #c0c0c0;
+  border-radius: 0;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input-group label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.theme-retro .input-group label {
+  color: #000;
+  font-weight: bold;
+}
+
+.input-group input {
+  width: 70px;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  outline: none;
+  font-family: var(--font-ui);
+}
+
+.theme-retro .input-group input {
+  background: #ffffff;
+  color: #000;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  border-radius: 0;
+}
+
+.btn-submit {
+  padding: 6px 16px;
+  border-radius: 4px;
+  border: none;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  font-weight: 600;
+  cursor: pointer;
+  height: 33px;
+}
+
+.theme-retro .btn-submit {
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  border-radius: 0;
+  background: #c0c0c0;
+  color: #000;
+  font-weight: bold;
+}
+
+/* ==========================================
+   狀態列 (Status Bar)
+   ========================================== */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.theme-retro .status-bar {
+  border: 3px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  background: #c0c0c0;
+  border-radius: 0;
+  padding: 6px;
+}
+
+.digit-display {
+  background: #000000;
+  color: #ff3b30;
+  font-family: var(--font-digital);
+  font-size: 2.2rem;
+  padding: 4px 12px;
+  border-radius: 6px;
+  letter-spacing: 2px;
+  min-width: 80px;
+  text-align: center;
+  user-select: none;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+}
+
+.theme-cyberpunk .digit-display {
+  color: #ff007f;
+  text-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
+  border: 1px solid rgba(255, 0, 127, 0.4);
+}
+
+.theme-retro .digit-display {
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  color: #ff0000;
+  font-size: 2.5rem;
+  border-radius: 0;
+  padding: 2px 6px;
+}
+
+.theme-aurora .digit-display {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+/* Smiley 笑臉重新開始按鈕 */
+.smiley-btn {
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--cell-bg);
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.1s ease, background-color 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.smiley-btn:active {
+  transform: scale(0.9);
+}
+
+.theme-cyberpunk .smiley-btn {
+  border: 1px solid var(--text-primary);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+}
+
+.theme-retro .smiley-btn {
+  border: 3px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  border-radius: 0;
+  background: #c0c0c0;
+  width: 42px;
+  height: 42px;
+  font-size: 1.6rem;
+  box-shadow: none;
+}
+
+.theme-retro .smiley-btn:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+  transform: none;
+}
+
+/* ==========================================
+   踩地雷網格 (Game Grid)
+   ========================================== */
+.board-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.grid-viewport {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.grid-container {
+  display: grid;
+  gap: 0px;
+  position: relative; /* 重要：給 ExplosionEffect 畫布定位 */
+  background: rgba(0, 0, 0, 0.2);
+  border: 3px solid rgba(0, 0, 0, 0.4);
+  padding: 4px;
+  border-radius: 8px;
+  user-select: none;
+}
+
+.theme-retro .grid-container {
+  border: 3px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  border-radius: 0px;
+  background: #808080;
+  padding: 3px;
+}
+
+/* 遊戲方格 (Cell) */
+.cell {
+  width: 32px;
+  height: 32px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--cell-border);
+  background: var(--cell-bg);
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  padding: 0;
+  transition: background-color 0.1s;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+}
+
+.cell:hover:not(.revealed):not(.flagged) {
+  background: var(--cell-bg-hover);
+}
+
+/* 經典復古的 3D 凸起框線 */
+.theme-retro .cell {
+  font-family: Arial, sans-serif;
+  font-size: 1.25rem;
+  font-weight: bold;
+  border: 3px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  border-radius: 0px;
+  box-shadow: none;
+}
+
+.theme-retro .cell:hover:not(.revealed):not(.flagged) {
+  background: #c0c0c0;
+}
+
+/* 點擊方格翻開時的動畫 */
+.cell.revealed {
+  background: var(--cell-revealed-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: default;
+  animation: revealFlip 0.2s ease-out forwards;
+}
+
+.theme-retro .cell.revealed {
+  border: 1px solid #808080;
+  animation: none; /* 復古風不需翻頁動畫 */
+}
+
+/* 賽博龐克方格發光 */
+.theme-cyberpunk .cell:not(.revealed) {
+  box-shadow: inset 0 0 5px rgba(0, 240, 255, 0.1);
+}
+
+.theme-cyberpunk .cell.revealed {
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.theme-cyberpunk .cell.flagged {
+  text-shadow: 0 0 8px #ff007f;
+}
+
+/* 方格被標示高亮（Chording 快擊輔助） */
+.cell.highlighted {
+  filter: brightness(1.6);
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 插旗與踩雷 */
+.cell.flagged {
+  color: #ff3b30;
+}
+
+.theme-cyberpunk .cell.flagged {
+  color: #ff007f;
+}
+
+.cell.mine {
+  background: #ff3b30 !important;
+  color: #ffffff;
+}
+
+.cell.exploded {
+  background: #ff0000 !important;
+  box-shadow: 0 0 15px #ff0000;
+  z-index: 2;
+  animation: cellExplodedShake 0.15s infinite;
+}
+
+.theme-cyberpunk .cell.mine {
+  background: #ff007f !important;
+}
+
+.theme-cyberpunk .cell.exploded {
+  background: #ff0055 !important;
+  box-shadow: 0 0 20px #ff007f;
+}
+
+.cell.incorrect-flag {
+  background: #2e1e1e !important;
+}
+
+/* 踩地雷周遭地雷數量顏色 */
+.count-1 { color: #3b82f6; } /* 藍 */
+.count-2 { color: #10b981; } /* 綠 */
+.count-3 { color: #ef4444; } /* 紅 */
+.count-4 { color: #8b5cf6; } /* 紫 */
+.count-5 { color: #f59e0b; } /* 橙 */
+.count-6 { color: #06b6d4; } /* 青 */
+.count-7 { color: #ec4899; } /* 粉紅 */
+.count-8 { color: #f8fafc; } /* 白/灰 */
+
+.theme-retro .count-1 { color: #0000ff; }
+.theme-retro .count-2 { color: #008000; }
+.theme-retro .count-3 { color: #ff0000; }
+.theme-retro .count-4 { color: #000080; }
+.theme-retro .count-5 { color: #800000; }
+.theme-retro .count-6 { color: #008080; }
+.theme-retro .count-7 { color: #000000; }
+.theme-retro .count-8 { color: #808080; }
+
+/* ==========================================
+   提示與彈窗訊息 (Alert Dialogs)
+   ========================================== */
+.game-alert {
+  margin-top: 24px;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.success-alert {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #10b981;
+}
+
+.theme-cyberpunk .success-alert {
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid #00f0ff;
+  color: #00f0ff;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+.theme-retro .success-alert {
+  background: #c0c0c0;
+  border: 3px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  color: #0000ff;
+  border-radius: 0;
+}
+
+.danger-alert {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+}
+
+.theme-cyberpunk .danger-alert {
+  background: rgba(255, 0, 127, 0.15);
+  border: 1px solid #ff007f;
+  color: #ff007f;
+  box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+}
+
+.theme-retro .danger-alert {
+  background: #c0c0c0;
+  border: 3px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  color: #ff0000;
+  border-radius: 0;
+}
+
+.game-alert h3 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  font-family: var(--font-ui);
+}
+
+.game-alert p {
+  margin-bottom: 16px;
+}
+
+.new-record-tag {
+  font-weight: bold;
+  animation: pulse 1s infinite alternate;
+}
+
+/* 按鈕風格 */
+.btn {
+  padding: 8px 20px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.theme-retro .btn {
+  border-radius: 0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: #c0c0c0;
+  color: #000;
+  font-weight: bold;
+}
+
+.theme-retro .btn-danger {
+  color: #ff0000;
+}
+
+.theme-retro .btn:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.game-footer-info {
+  margin-top: 24px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 500px;
+  line-height: 1.5;
+}
+
+.theme-retro .game-footer-info {
+  color: #000000;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  padding: 8px;
+  border-radius: 0;
+}
+
+/* ==========================================
+   排行榜彈窗 (Leaderboard Modal)
+   ========================================== */
+.leaderboard-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+.leaderboard-overlay.active {
+  display: flex;
+}
+
+.leaderboard-modal {
+  background: var(--panel-bg);
+  border: var(--panel-border);
+  box-shadow: var(--panel-shadow);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 480px;
+  padding: 24px;
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+.theme-retro .leaderboard-modal {
+  border-radius: 0;
+  background: #c0c0c0;
+  border: 3px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.5);
+  color: #000;
+}
+
+.leaderboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.leaderboard-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.theme-retro .close-btn {
+  color: #000;
+}
+
+/* 頁籤 */
+.leaderboard-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+}
+
+.theme-retro .leaderboard-tabs {
+  border-color: #808080;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: bold;
+}
+
+.theme-retro .tab-btn.active {
+  background: #808080;
+  color: #ffffff;
+  border-radius: 0;
+}
+
+.leaderboard-body {
+  min-height: 200px;
+}
+
+.empty-scores {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0;
+  color: var(--text-muted);
+}
+
+.trophy-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+/* 分數表格 */
+.scores-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.scores-table th,
+.scores-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.theme-retro .scores-table th,
+.theme-retro .scores-table td {
+  border-bottom: 1px solid #808080;
+  color: #000;
+}
+
+.scores-table th {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.theme-retro .scores-table th {
+  color: #000;
+  font-weight: bold;
+}
+
+.score-time {
+  font-family: var(--font-digital);
+  font-size: 1.15rem;
+}
+
+.leaderboard-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+/* ==========================================
+   動畫效果 (Animations)
+   ========================================== */
+@keyframes revealFlip {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes cellExplodedShake {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, 2px); }
+  50% { transform: translate(2px, -2px); }
+  75% { transform: translate(-2px, -2px); }
+  100% { transform: translate(2px, 2px); }
+}
+
+.animate-shake {
+  animation: containerShake 0.4s ease-out;
+}
+
+@keyframes containerShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
+.animate-bounce {
+  animation: winBounce 0.6s ease-out;
+}
+
+@keyframes winBounce {
+  0% { transform: translateY(50px); opacity: 0; }
+  60% { transform: translateY(-10px); }
+  80% { transform: translateY(4px); }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+  100% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px var(--text-secondary); }
+}
